@@ -107,3 +107,58 @@
 </body>
 </html>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin hiển thị</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .info {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="info" id="time">Thời gian hiện tại: Loading...</div>
+    <div class="info" id="fps">FPS: Loading...</div>
+    <div class="info" id="ip">Địa chỉ IP: Loading...</div>
+    <div class="info" id="location">Vị trí: Loading...</div>
+
+    <script>
+        // Hiển thị thời gian hiện tại
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time').textContent = "Thời gian hiện tại: " + now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);  // Cập nhật mỗi giây
+
+        // Hiển thị FPS
+        let lastFrameTime = Date.now();
+        let fps = 0;
+        function updateFPS() {
+            const currentTime = Date.now();
+            fps = Math.round(1000 / (currentTime - lastFrameTime));
+            lastFrameTime = currentTime;
+            document.getElementById('fps').textContent = "FPS: " + fps;
+        }
+        setInterval(updateFPS, 1000 / 60);  // Cập nhật FPS mỗi 1/60 giây
+
+        // Lấy địa chỉ IP và vị trí người dùng
+        fetch('http://ip-api.com/json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').textContent = "Địa chỉ IP: " + data.query;
+                document.getElementById('location').textContent = "Vị trí: " + data.city + ", " + data.regionName + ", " + data.country;
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy thông tin IP và vị trí:', error);
+            });
+    </script>
+</body>
+</html>
+

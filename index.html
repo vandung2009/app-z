@@ -10,12 +10,20 @@
             background-color: #f4f4f4;
             text-align: center;
             padding: 20px;
+            margin: 0;
         }
         h1 {
             color: #333;
         }
         p {
             color: #666;
+        }
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px 0;
         }
         .app-link {
             display: block;
@@ -32,17 +40,62 @@
         .app-link:hover {
             background-color: #0056b3;
         }
+        footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+        footer p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Avatar -->
+    <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar">
+
     <h1>Chào mừng đến với trang Bio của tôi!</h1>
     <p>Ở đây bạn có thể tải các ứng dụng yêu thích của mình:</p>
 
+    <!-- Các liên kết tải ứng dụng -->
     <a href="https://play.google.com/store/apps/details?id=com.app1" class="app-link" target="_blank">Tải Ứng Dụng 1</a>
     <a href="https://play.google.com/store/apps/details?id=com.app2" class="app-link" target="_blank">Tải Ứng Dụng 2</a>
     <a href="https://apps.apple.com/us/app/id123456789" class="app-link" target="_blank">Tải Ứng Dụng 3 (iOS)</a>
     <a href="https://apps.apple.com/us/app/id987654321" class="app-link" target="_blank">Tải Ứng Dụng 4 (iOS)</a>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>FPS:</strong> <span id="fps">Đang tải...</span></p>
+        <p><strong>IP của bạn:</strong> <span id="ip">Đang tải...</span></p>
+    </footer>
+
+    <script>
+        // Lấy thông tin IP của người dùng
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip').textContent = data.ip;
+            })
+            .catch(error => {
+                document.getElementById('ip').textContent = 'Không thể lấy IP';
+            });
+
+        // Giả lập FPS (Trong thực tế, có thể dùng API hoặc cách khác để tính FPS)
+        let fps = 0;
+        let lastTime = performance.now();
+        
+        function calculateFPS() {
+            let currentTime = performance.now();
+            fps = Math.round(1000 / (currentTime - lastTime));
+            lastTime = currentTime;
+            document.getElementById('fps').textContent = fps;
+            requestAnimationFrame(calculateFPS);
+        }
+
+        // Bắt đầu tính FPS
+        calculateFPS();
+    </script>
 
 </body>
 </html>
